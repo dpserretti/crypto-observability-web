@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --cache --max-warnings=0",
     "test": "vitest",
-    "test:ci": "vitest run --environment jsdom",
+    "test:ci": "vitest run",
     "preview": "vite preview"
   },
   "lint-staged": {
@@ -34,7 +34,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "jsdom": "^27.4.0",
+    "happy-dom": "^20.3.4",
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.0",
     "typescript": "~5.9.3",
