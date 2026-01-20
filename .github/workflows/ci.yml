@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  lint-typecheck-build:
+  lint-tests-build:
     runs-on: ubuntu-latest
 
     steps:
