@@ -91,3 +91,9 @@ This repository follows the Conventional Commits specification:
 ## License
 
 MIT
+
+---
+
+## Related Projects
+
+- Backend API: https://github.com/SEU_USUARIO/crypto-observability-api
