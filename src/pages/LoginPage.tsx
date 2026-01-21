@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../features/auth/useAuth'
+import { useAuth } from '@/features/auth/useAuth'
 
 export function LoginPage() {
   const { login } = useAuth()
