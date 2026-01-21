@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Providers } from '../src/app/providers'
+import { AppProviders } from '../src/app/providers'
 import { RouterProvider } from 'react-router-dom'
 import { router } from '../src/app/router'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Providers>
+    <AppProviders>
       <RouterProvider router={router} />
-    </Providers>
+    </AppProviders>
   </React.StrictMode>
 )

@@ -1,4 +1,5 @@
-import { ReactNode, useState } from 'react'
+import { useState } from 'react'
+import type { ReactNode } from 'react'
 import { AuthContext } from './auth.context'
 
 type Props = {
@@ -8,7 +9,10 @@ type Props = {
 export function AuthProvider({ children }: Props) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  const login = () => setIsAuthenticated(true)
+  const login = (email: string, password: string) => {
+    setIsAuthenticated(Boolean(email.trim() && password.trim()))
+  }
+
   const logout = () => setIsAuthenticated(false)
 
   return (
