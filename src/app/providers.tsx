@@ -5,10 +5,6 @@ type Props = {
   children: ReactNode
 }
 
-export function AppProviders({ children }: Props) {
-  return (
-    <AuthProvider>
-      {children}
-    </AuthProvider>
-  )
+export function Providers({ children }: Props) {
+  return <AuthProvider>{children}</AuthProvider>
 }

@@ -1,22 +1,46 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { AuthContext } from '@/features/auth/auth.context'
+import { api } from '@/services/api'
 
 type Props = {
   children: ReactNode
 }
 
 export function AuthProvider({ children }: Props) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [token, setToken] = useState<string | null>(
+    () => localStorage.getItem('access_token')
+  )
 
-  const login = (email: string, password: string) => {
-    setIsAuthenticated(Boolean(email.trim() && password.trim()))
+  const isAuthenticated = Boolean(token)
+
+  function login(accessToken: string) {
+    localStorage.setItem('access_token', accessToken)
+    setToken(accessToken)
   }
 
-  const logout = () => setIsAuthenticated(false)
+  function logout() {
+    localStorage.removeItem('access_token')
+    setToken(null)
+  }
+
+  useEffect(() => {
+    const interceptor = api.interceptors.request.use((config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
+      return config
+    })
+
+    return () => {
+      api.interceptors.request.eject(interceptor)
+    }
+  }, [token])
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ token, isAuthenticated, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   )
