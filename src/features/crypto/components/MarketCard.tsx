@@ -1,55 +1,61 @@
-import type { CryptoMarket } from '@/features/crypto/types'
+import type { CryptoMarket } from '../types'
 
 type Props = {
   market: CryptoMarket
 }
 
 export function MarketCard({ market }: Props) {
-  const isPositive = market.price_change_24h >= 0
+  const price =
+    typeof market.price_usd === 'number'
+      ? market.price_usd.toFixed(2)
+      : '--'
+
+  const change =
+    typeof market.price_change_24h === 'number'
+      ? market.price_change_24h.toFixed(2)
+      : '--'
+
+  const changePct =
+    typeof market.price_change_percentage_24h === 'number'
+      ? market.price_change_percentage_24h.toFixed(2)
+      : '--'
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="rounded-lg bg-white p-6 shadow dark:bg-slate-900">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold uppercase">
+        <h2 className="text-lg font-semibold uppercase">
           {market.symbol}
-        </h3>
+        </h2>
 
         {market.cached && (
-          <span className="rounded bg-yellow-100 px-2 py-0.5 text-xs text-yellow-800">
+          <span className="rounded bg-yellow-200 px-2 py-0.5 text-xs text-yellow-900">
             cached
           </span>
         )}
       </div>
 
-      <div className="mt-4 space-y-2">
-        <p className="text-2xl font-bold">
-          ${market.price_usd.toLocaleString()}
-        </p>
+      <div className="mt-4 text-3xl font-bold">
+        ${price}
+      </div>
 
-        <p
-          className={`text-sm ${
-            isPositive ? 'text-green-600' : 'text-red-600'
-          }`}
-        >
-          {isPositive ? '+' : ''}
-          {market.price_change_24h.toFixed(2)} (
-          {market.price_change_percentage_24h.toFixed(2)}%)
-        </p>
+      <div
+        className={`mt-2 text-sm ${
+          Number(market.price_change_24h) >= 0
+            ? 'text-green-500'
+            : 'text-red-500'
+        }`}
+      >
+        {change} ({changePct}%)
+      </div>
 
-        <div className="pt-2 text-sm text-gray-500">
-          <p>
-            Market cap:{' '}
-            <span className="font-medium text-gray-700">
-              ${market.market_cap_usd.toLocaleString()}
-            </span>
-          </p>
-
-          <p>
-            Volume 24h:{' '}
-            <span className="font-medium text-gray-700">
-              ${market.volume_24h_usd.toLocaleString()}
-            </span>
-          </p>
+      <div className="mt-4 text-sm text-slate-400">
+        <div>
+          Market cap: $
+          {market.market_cap_usd?.toLocaleString() ?? '--'}
+        </div>
+        <div>
+          Volume 24h: $
+          {market.volume_24h_usd?.toLocaleString() ?? '--'}
         </div>
       </div>
     </div>

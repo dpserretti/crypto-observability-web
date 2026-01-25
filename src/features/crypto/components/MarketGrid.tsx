@@ -1,14 +1,16 @@
-import type { CryptoMarket } from '@/features/crypto/types'
-import { MarketCard } from '@/features/crypto/components/MarketCard'
+import type { CryptoMarket } from '../types'
+import { MarketCard } from './MarketCard'
 
-type MarketGridProps = {
-  data: CryptoMarket
+type Props = {
+  data: CryptoMarket[]
 }
 
-export function MarketGrid({ data }: MarketGridProps) {
+export function MarketGrid({ data }: Props) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-      <MarketCard market={data} />
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {data.map((market) => (
+        <MarketCard key={market.symbol} market={market} />
+      ))}
     </div>
   )
 }
