@@ -8,7 +8,10 @@ export default function DashboardPage() {
   const { data: coins, loading: coinsLoading } = useCoins()
   const [selectedCoinId, setSelectedCoinId] = useState('bitcoin')
 
-  const symbols = useMemo(() => [selectedCoinId], [selectedCoinId])
+  const symbols = useMemo<string[]>(
+    () => (selectedCoinId ? [selectedCoinId] : []),
+    [selectedCoinId]
+  )
 
   const {
     data: markets,
@@ -31,7 +34,7 @@ export default function DashboardPage() {
       {marketLoading && <p>Loading market data...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
-      <MarketGrid data={markets} />
+      {markets.length > 0 && <MarketGrid data={markets} />}
     </div>
   )
 }

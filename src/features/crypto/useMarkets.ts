@@ -7,13 +7,10 @@ export function useMarkets(symbols: string[]) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const symbolsKey = useMemo(
-    () => symbols.join(','),
-    [symbols]
-  )
+  const symbolsKey = useMemo(() => symbols.join(','), [symbols])
 
   useEffect(() => {
-    if (symbols.length === 0) return
+    if (!symbolsKey) return
 
     let cancelled = false
 
@@ -24,9 +21,7 @@ export function useMarkets(symbols: string[]) {
       try {
         const responses = await Promise.all(
           symbols.map((symbol) =>
-            api
-              .get(`/crypto/${symbol}/price`)
-              .then((res) => res.data)
+            api.get(`/crypto/${symbol}`).then((res) => res.data)
           )
         )
 
@@ -49,8 +44,7 @@ export function useMarkets(symbols: string[]) {
     return () => {
       cancelled = true
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [symbolsKey])
+  }, [symbols, symbolsKey])
 
   return { data, loading, error }
 }
