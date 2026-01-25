@@ -49,7 +49,8 @@ export function useMarkets(symbols: string[]) {
     return () => {
       cancelled = true
     }
-  }, [symbols, symbolsKey])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [symbolsKey])
 
   return { data, loading, error }
 }
