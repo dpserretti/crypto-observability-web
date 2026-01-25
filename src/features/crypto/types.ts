@@ -1,3 +1,9 @@
+export interface CryptoCoin {
+    id: string
+    symbol: string
+    name: string
+}
+
 export interface CryptoMarket {
     symbol: string
     price_usd: number
@@ -7,4 +13,4 @@ export interface CryptoMarket {
     volume_24h_usd: number
     cached: boolean
     last_updated: string
-  }
+}
