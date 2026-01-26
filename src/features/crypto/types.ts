@@ -14,3 +14,8 @@ export interface CryptoMarket {
     cached: boolean
     last_updated: string
 }
+
+export interface CryptoHistoryPoint {
+    timestamp: number
+    price: number
+  }
