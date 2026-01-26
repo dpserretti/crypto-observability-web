@@ -1,16 +1,14 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { api } from '@/services/api'
 import type { CryptoMarket } from './types'
 
-export function useMarkets(symbols: string[]) {
-  const [data, setData] = useState<CryptoMarket[]>([])
+export function useMarket(symbol: string) {
+  const [data, setData] = useState<CryptoMarket | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const symbolsKey = useMemo(() => symbols.join(','), [symbols])
-
   useEffect(() => {
-    if (!symbolsKey) return
+    if (!symbol) return
 
     let cancelled = false
 
@@ -19,14 +17,9 @@ export function useMarkets(symbols: string[]) {
       setError(null)
 
       try {
-        const responses = await Promise.all(
-          symbols.map((symbol) =>
-            api.get(`/crypto/${symbol}`).then((res) => res.data)
-          )
-        )
-
+        const res = await api.get(`/crypto/${symbol}`)
         if (!cancelled) {
-          setData(responses)
+          setData(res.data)
         }
       } catch {
         if (!cancelled) {
@@ -44,7 +37,7 @@ export function useMarkets(symbols: string[]) {
     return () => {
       cancelled = true
     }
-  }, [symbols, symbolsKey])
+  }, [symbol])
 
   return { data, loading, error }
 }
